@@ -24,17 +24,14 @@ import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView[] hearts, enemy;
     private Button right, left;
 
-    private ImageView [] path;
-    private int playerIndex;
+    private ImageView [] path, hearts;
+    private int playerIndex, hearts_count = 3;;
 
-
+    private ImageView[] enemy;
     private ValueAnimator[] animations;
-    private int animationIndex, screenHeight,hearts_count = 3;
-
-
+    private int animationIndex, screenHeight;
 
 
     @Override
@@ -42,15 +39,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
-        enemy = new ImageView[]{
-                findViewById(R.id.enemy_1), findViewById(R.id.enemy_2), findViewById(R.id.enemy_3)
-        };
-
-        hearts = new ImageView[]{
-                findViewById(R.id.heart_1), findViewById(R.id.heart_2), findViewById(R.id.heart_3)
-        };
-
 
         right = findViewById(R.id.right_BTN);
         right.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     moveRight(right);
             }
         });
+
         left = findViewById(R.id.left_BTN);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         findViews();
-
         start();
 
     }
@@ -103,16 +90,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationUpdate(ValueAnimator updatedAnimation) {
                     int animatedValue =(int) updatedAnimation.getAnimatedValue();
-//                    if (toResume == true)
-//                        enemy[position].setTranslationY(enemy[position].getTranslationY());
-//                    else
                     enemy[position].setTranslationY(animatedValue);
                     if(isCollision(enemy[position],path[playerIndex])) {
-                        enemy[position].setY(-130);
+                        enemy[position].setY(-120);
                         checkCrash();
                         updatedAnimation.start();
                     }
-//                    else updateScore(enemy[position],updatedAnimation,enemyMoney);
                 }
             });
         }
@@ -130,15 +113,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkCrash() {
         vibrate();
-        if(hearts_count == 1) {
-            hearts[hearts_count - 1].setVisibility(View.INVISIBLE);
-//            pauseGame();
+        hearts[hearts_count - 1].setVisibility(View.INVISIBLE);
+        hearts_count--;
+        if (hearts_count == 0)
             finish();
-        }
-        else {
-            hearts[hearts_count - 1].setVisibility(View.INVISIBLE);
-            hearts_count--;
-        }
+        else if (hearts_count == 2)
+            path[playerIndex].setImageResource(R.drawable.img_blossom);
+        else
+            path[playerIndex].setImageResource(R.drawable.img_bubbles);
     }
 
     private boolean isCollision(ImageView objectCol, ImageView playerCol) {
@@ -147,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
         objectCol.getLocationOnScreen(object_locate);
         playerCol.getLocationOnScreen(player_locate);
-        Log.d("pttt", "B player_locate=" + player_locate );
-
 
         Rect rect1=new Rect(object_locate[0],object_locate[1],(int)(object_locate[0]+ objectCol.getWidth()),(int)(object_locate[1]+objectCol.getHeight()));
         Rect rect2=new Rect(player_locate[0],player_locate[1],(int)(player_locate[0]+ playerCol.getWidth()),(int)(player_locate[1]+playerCol.getHeight()));
@@ -168,50 +148,43 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
 
-//    for view
     private void findViews() {
         path = new ImageView[]{
                 findViewById(R.id.player_0), findViewById(R.id.player_1), findViewById(R.id.player_2)
         };
+        enemy = new ImageView[]{
+                findViewById(R.id.enemy_1), findViewById(R.id.enemy_2), findViewById(R.id.enemy_3)
+        };
+        hearts = new ImageView[]{
+                findViewById(R.id.heart_1), findViewById(R.id.heart_2), findViewById(R.id.heart_3)
+        };
         playerIndex = 1;
-
-
     }
 
-//    public void moveRight(View view) {
-//        if (player.getX() < (getResources().getDisplayMetrics().widthPixels * 2.0 / enemy.length))
-//            player.setX(player.getX() + getResources().getDisplayMetrics().widthPixels / enemy.length);
-//
-//    }
-
-//    public void moveLeft(View view) {
-//        if (player.getX() >= (getResources().getDisplayMetrics().widthPixels * 0.5 / enemy.length))
-//            player.setX(player.getX() - getResources().getDisplayMetrics().widthPixels / enemy.length);
-//    }
-
-//    public void moveRight(View view) {
-//            player.setLayoutParams(player.getLayoutParams());
-//
-//    }
 
     public void moveRight(View view) {
-//        if (player.getX() < (getResources().getDisplayMetrics().widthPixels * 2.0 / enemy.length))
-//            player.setX(player.getX() + getResources().getDisplayMetrics().widthPixels / enemy.length);
         path[playerIndex].setImageResource(0);
-        path[playerIndex+1].setImageResource(R.drawable.img_buttercup);
+        if(hearts_count==3)
+            path[playerIndex+1].setImageResource(R.drawable.img_buttercup);
+        else if(hearts_count==2)
+            path[playerIndex+1].setImageResource(R.drawable.img_blossom);
+        else
+            path[playerIndex+1].setImageResource(R.drawable.img_bubbles);
         playerIndex++;
 
     }
 
     public void moveLeft(View view) {
-//        if (player.getX() >= (getResources().getDisplayMetrics().widthPixels * 0.5 / enemy.length))
-//            player.setX(player.getX() - getResources().getDisplayMetrics().widthPixels / enemy.length);
         path[playerIndex].setImageResource(0);
-        path[playerIndex-1].setImageResource(R.drawable.img_buttercup);
+        if(hearts_count==3)
+            path[playerIndex - 1].setImageResource(R.drawable.img_buttercup);
+        else if(hearts_count==2)
+            path[playerIndex - 1].setImageResource(R.drawable.img_blossom);
+        else
+            path[playerIndex - 1].setImageResource(R.drawable.img_bubbles);
         playerIndex--;
     }
 }
