@@ -23,25 +23,15 @@ public class MainActivity extends AppCompatActivity {
     private ImageView player;
     private ImageView[] hearts, enemy;
     private Button right, left;
-    private ProgressBar panel_PRG_time;
+
+    private ImageView [] path;
+    private int playerIndex;
+
 
     private ValueAnimator[] animations;
     private int animationIndex, screenHeight;
 
 
-    final int DELAY = 1000;
-
-    private int clock = 10;
-
-    final Handler handler = new Handler();
-
-    private Runnable r = new Runnable() {
-        public void run() {
-            Log.d("pttt", "Tick: " + clock);
-            updateClockView();
-            handler.postDelayed(r, DELAY);
-        }
-    };
 
 
     @Override
@@ -58,28 +48,27 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.heart_1), findViewById(R.id.heart_2), findViewById(R.id.heart_3)
         };
 
-        player = findViewById(R.id.player);
+        player = findViewById(R.id.player_1);
 
         right = findViewById(R.id.right_BTN);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveRight(right);
+                if(playerIndex<2)
+                    moveRight(right);
             }
         });
         left = findViewById(R.id.left_BTN);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveLeft(left);
+                if(playerIndex>0)
+                    moveLeft(left);
             }
         });
 
 
         findViews();
-
-        panel_PRG_time.setMax(10);
-        panel_PRG_time.setProgress(10);
 
         start();
 
@@ -126,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void SetEnemyAnimParameters() {
         final int initialHeight = -(500 + (int) (Math.random() * 1000));
-        animations[animationIndex] = ValueAnimator.ofInt(initialHeight ,screenHeight +400);
+        animations[animationIndex] = ValueAnimator.ofInt(initialHeight ,screenHeight + 400);
         animations[animationIndex].setDuration(7000 + (long) (Math.random() * 7000 - 1));
         animations[animationIndex].setStartDelay((long) (Math.random() * 1));
         animations[animationIndex].setRepeatCount(Animation.INFINITE);
@@ -136,33 +125,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        startTicker();
+
     }
 
-//    Clock
-    private void startTicker() {
-        handler.postDelayed(r, DELAY);
-    }
-
-    private void updateClockView() {
-        clock--;
-        panel_PRG_time.setProgress(clock);
-    }
 
 //    for view
     private void findViews() {
-        panel_PRG_time = findViewById(R.id.panel_PRG_time);
+        path = new ImageView[]{
+                findViewById(R.id.player_0), findViewById(R.id.player_1), findViewById(R.id.player_2)
+        };
+        playerIndex = 1;
 
 
     }
 
+//    public void moveRight(View view) {
+//        if (player.getX() < (getResources().getDisplayMetrics().widthPixels * 2.0 / enemy.length))
+//            player.setX(player.getX() + getResources().getDisplayMetrics().widthPixels / enemy.length);
+//
+//    }
+
+//    public void moveLeft(View view) {
+//        if (player.getX() >= (getResources().getDisplayMetrics().widthPixels * 0.5 / enemy.length))
+//            player.setX(player.getX() - getResources().getDisplayMetrics().widthPixels / enemy.length);
+//    }
+
+//    public void moveRight(View view) {
+//            player.setLayoutParams(player.getLayoutParams());
+//
+//    }
+
     public void moveRight(View view) {
-        if (player.getX() < (getResources().getDisplayMetrics().widthPixels * 2.0 / enemy.length))
-            player.setX(player.getX() + getResources().getDisplayMetrics().widthPixels / enemy.length);
+//        if (player.getX() < (getResources().getDisplayMetrics().widthPixels * 2.0 / enemy.length))
+//            player.setX(player.getX() + getResources().getDisplayMetrics().widthPixels / enemy.length);
+        path[playerIndex].setImageResource(0);
+        path[playerIndex+1].setImageResource(R.drawable.img_buttercup);
+        playerIndex++;
+
     }
 
     public void moveLeft(View view) {
-        if (player.getX() >= (getResources().getDisplayMetrics().widthPixels * 0.5 / enemy.length))
-            player.setX(player.getX() - getResources().getDisplayMetrics().widthPixels / enemy.length);
+//        if (player.getX() >= (getResources().getDisplayMetrics().widthPixels * 0.5 / enemy.length))
+//            player.setX(player.getX() - getResources().getDisplayMetrics().widthPixels / enemy.length);
+        path[playerIndex].setImageResource(0);
+        path[playerIndex-1].setImageResource(R.drawable.img_buttercup);
+        playerIndex--;
     }
 }
