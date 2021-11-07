@@ -5,9 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_city"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/demo_IMG_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/img_city"
+        />
+
+    <ImageView
+        android:id="@+id/heart_1"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/img_heart"
+        />
 
     <ImageView
         android:id="@+id/heart_1"
@@ -33,6 +47,17 @@
         android:layout_alignTop="@+id/heart_2"
         android:layout_toEndOf="@+id/heart_2"
         android:src="@drawable/img_heart"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:id="@+id/duration_time"
         />
 
     <LinearLayout

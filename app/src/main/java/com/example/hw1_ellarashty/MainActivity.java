@@ -18,9 +18,14 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,8 +35,15 @@ public class MainActivity extends AppCompatActivity {
     private int playerIndex, hearts_count = 3;;
 
     private ImageView[] enemy;
-    private ValueAnimator[] animations;
+    private ValueAnimator[] enemy_animations;
     private int animationIndex, screenHeight;
+
+    private TextView duration_time;
+    private Timer timer ;
+    int clock = 0;
+
+    private Animation anima;
+
 
 
     @Override
@@ -40,6 +52,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        duration_time = findViewById(R.id.duration_time);
+
+        findViews();
+        initView();
+        startAnimations();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startTicker();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTicker();
+    }
+
+    private void initView() {
         right = findViewById(R.id.right_BTN);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,49 +89,47 @@ public class MainActivity extends AppCompatActivity {
                     moveLeft(left);
             }
         });
-
-        findViews();
-        start();
-
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
-    private void start() {
+    private void startAnimations() {
         WindowManager wm = getWindowManager();
-        Display disp = wm.getDefaultDisplay();
+        Display dsp = wm.getDefaultDisplay();
         Point size = new Point();
-        disp.getSize(size);
-
+        dsp.getSize(size);
         screenHeight=size.y;
-        setUpEnemyAnimations();
-
+        setUpEnemy();
     }
 
 
-    public void setUpEnemyAnimations(){
-        animations = new ValueAnimator[enemy.length];
-
+    public void setUpEnemy(){
+        enemy_animations = new ValueAnimator[enemy.length];
         for (animationIndex = 0 ; animationIndex < enemy.length ; animationIndex++){
-            SetEnemyAnimParameters();
-            animations[animationIndex].start();
-            animations[animationIndex].addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                private int position = animationIndex;
+            SetEnemyAnimationsParameters();
+            enemy_animations[animationIndex].start();
+            enemy_animations[animationIndex].addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                private int enemyIndex = animationIndex;
                 @Override
                 public void onAnimationUpdate(ValueAnimator updatedAnimation) {
                     int animatedValue =(int) updatedAnimation.getAnimatedValue();
-                    enemy[position].setTranslationY(animatedValue);
-                    if(isCollision(enemy[position],path[playerIndex])) {
-                        enemy[position].setY(-120);
-                        checkCrash();
+                    enemy[enemyIndex].setTranslationY(animatedValue);
+                    if(isCollision(enemy[enemyIndex],path[playerIndex])) {
+                        enemy[enemyIndex].setY(-120);
+                        updateCrash();
                         updatedAnimation.start();
                     }
                 }
             });
         }
     }
+
+    private void SetEnemyAnimationsParameters() {
+        final int initialHeight = -(500 + (int) (Math.random() * 100));
+        enemy_animations[animationIndex] = ValueAnimator.ofInt(initialHeight ,screenHeight + 400);
+        enemy_animations[animationIndex].setDuration(6000 + (long) (Math.random() * 6000 - 1));
+        enemy_animations[animationIndex].setStartDelay((long) (Math.random() * 1));
+        enemy_animations[animationIndex].setRepeatCount(Animation.INFINITE);
+    }
+
     private void vibrate() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
@@ -111,21 +141,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkCrash() {
+    private void updateCrash() {
         vibrate();
         hearts[hearts_count - 1].setVisibility(View.INVISIBLE);
         hearts_count--;
         if (hearts_count == 0)
             finish();
-        else if (hearts_count == 2)
+        else if (hearts_count == 2) {
             path[playerIndex].setImageResource(R.drawable.img_blossom);
-        else
+            anima = AnimationUtils.loadAnimation(this, R.anim.rotate);
+            path[playerIndex].startAnimation(anima);
+        }
+        else {
             path[playerIndex].setImageResource(R.drawable.img_bubbles);
+            anima = AnimationUtils.loadAnimation(this, R.anim.rotate);
+            path[playerIndex].startAnimation(anima);
+        }
     }
 
     private boolean isCollision(ImageView objectCol, ImageView playerCol) {
-        int[] object_locate = new int[2];
-        int[] player_locate = new int[2];
+        int[] object_locate = new int[path.length];
+        int[] player_locate = new int[path.length];
 
         objectCol.getLocationOnScreen(object_locate);
         playerCol.getLocationOnScreen(player_locate);
@@ -136,19 +172,6 @@ public class MainActivity extends AppCompatActivity {
         return Rect.intersects(rect1,rect2);
     }
 
-    private void SetEnemyAnimParameters() {
-        final int initialHeight = -(500 + (int) (Math.random() * 1000));
-        animations[animationIndex] = ValueAnimator.ofInt(initialHeight ,screenHeight + 400);
-        animations[animationIndex].setDuration(7000 + (long) (Math.random() * 7000 - 1));
-        animations[animationIndex].setStartDelay((long) (Math.random() * 1));
-        animations[animationIndex].setRepeatCount(Animation.INFINITE);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
 
     private void findViews() {
@@ -158,12 +181,12 @@ public class MainActivity extends AppCompatActivity {
         enemy = new ImageView[]{
                 findViewById(R.id.enemy_1), findViewById(R.id.enemy_2), findViewById(R.id.enemy_3)
         };
+
         hearts = new ImageView[]{
                 findViewById(R.id.heart_1), findViewById(R.id.heart_2), findViewById(R.id.heart_3)
         };
         playerIndex = 1;
     }
-
 
     public void moveRight(View view) {
         path[playerIndex].setImageResource(0);
@@ -187,4 +210,35 @@ public class MainActivity extends AppCompatActivity {
             path[playerIndex - 1].setImageResource(R.drawable.img_bubbles);
         playerIndex--;
     }
+
+    private void startTicker() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateClock();
+                    }
+                });
+            }
+        }, 10, 1000);
+    }
+
+
+    private void stopTicker() {
+        timer.cancel();
+    }
+
+    private void updateClock() {
+        clock++;
+        duration_time.setText("Time: " + clock);
+        if(clock%20==0){
+            anima = AnimationUtils.loadAnimation(this, R.anim.sample_anim);
+            duration_time.startAnimation(anima);
+        }
+    }
+
+
 }
