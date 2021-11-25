@@ -24,15 +24,6 @@
         />
 
     <ImageView
-        android:id="@+id/heart_1"
-        android:layout_width="45dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        android:src="@drawable/img_heart"
-        />
-
-    <ImageView
         android:id="@+id/heart_2"
         android:layout_width="45dp"
         android:layout_height="40dp"
@@ -65,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="5"
         android:layout_below="@id/heart_1"
         android:layout_marginTop="10dp"
         >
@@ -81,8 +72,16 @@
             <ImageView
                 android:id="@+id/enemy_1"
                 android:layout_width="match_parent"
-                android:layout_height="250px"
+                android:layout_height="200px"
                 android:src="@drawable/img_mojo" />
+
+            <ImageView
+                android:id="@+id/player_0"
+                android:layout_width="220px"
+                android:layout_height="220px"
+                android:layout_marginTop="450dp"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -96,8 +95,16 @@
             <ImageView
                 android:id="@+id/enemy_2"
                 android:layout_width="match_parent"
-                android:layout_height="250px"
+                android:layout_height="200px"
                 android:src="@drawable/img_mojo"
+                />
+
+            <ImageView
+                android:id="@+id/player_1"
+                android:layout_width="220px"
+                android:layout_height="220px"
+                android:layout_marginTop="450dp"
+
                 />
         </LinearLayout>
 
@@ -111,8 +118,57 @@
             <ImageView
                 android:id="@+id/enemy_3"
                 android:layout_width="match_parent"
-                android:layout_height="250px"
+                android:layout_height="200px"
                 android:src="@drawable/img_mojo" />
+
+            <ImageView
+                android:id="@+id/player_2"
+                android:layout_width="220px"
+                android:layout_height="220px"
+                android:layout_marginTop="450dp"
+                android:src="@drawable/img_buttercup" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/enemy_4"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:src="@drawable/img_mojo" />
+
+            <ImageView
+                android:id="@+id/player_3"
+                android:layout_width="220px"
+                android:layout_height="220px"
+                android:layout_marginTop="450dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/enemy_5"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:src="@drawable/img_mojo" />
+
+            <ImageView
+                android:id="@+id/player_4"
+                android:layout_width="220px"
+                android:layout_height="220px"
+                android:layout_marginTop="450dp" />
         </LinearLayout>
 
 
@@ -139,35 +195,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/img_right"
-        />
-
-    <ImageView
-        android:id="@+id/player_1"
-        android:src="@drawable/img_buttercup"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:layout_above="@id/right_BTN"
-        android:layout_centerInParent="true"
-        />
-
-    <ImageView
-        android:id="@+id/player_0"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:layout_marginRight="30dp"
-        android:layout_above="@id/right_BTN"
-        android:layout_toStartOf="@id/player_1"
-        android:layout_centerInParent="true"
-        />
-
-    <ImageView
-        android:id="@+id/player_2"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:layout_marginLeft="30dp"
-        android:layout_toEndOf="@id/player_1"
-        android:layout_above="@id/right_BTN"
-        android:layout_centerInParent="true"
         />
 
 

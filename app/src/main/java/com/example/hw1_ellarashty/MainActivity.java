@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(playerIndex<2)
+                if(playerIndex<4)
                     moveRight(right);
             }
         });
@@ -182,11 +182,11 @@ public class MainActivity extends AppCompatActivity {
         duration_time = findViewById(R.id.duration_time);
         //The path of the player
         path = new ImageView[]{
-                findViewById(R.id.player_0), findViewById(R.id.player_1), findViewById(R.id.player_2)
+                findViewById(R.id.player_0), findViewById(R.id.player_1), findViewById(R.id.player_2),findViewById(R.id.player_3),findViewById(R.id.player_4)
         };
 
         enemy = new ImageView[]{
-                findViewById(R.id.enemy_1), findViewById(R.id.enemy_2), findViewById(R.id.enemy_3)
+                findViewById(R.id.enemy_1), findViewById(R.id.enemy_2), findViewById(R.id.enemy_3), findViewById(R.id.enemy_4), findViewById(R.id.enemy_5)
         };
 
         hearts = new ImageView[]{
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         //Initial position of the player
-        playerIndex = 1;
+        playerIndex = 2;
     }
 
 
