@@ -76,10 +76,17 @@
                 android:src="@drawable/img_mojo" />
 
             <ImageView
+                android:id="@+id/bonus_1"
+                android:layout_width="match_parent"
+                android:layout_height="170px"
+                android:src="@drawable/powerpuff_heart" />
+
+            <ImageView
                 android:id="@+id/player_0"
-                android:layout_width="220px"
-                android:layout_height="220px"
-                android:layout_marginTop="450dp"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:layout_marginTop="430dp"
+
                 />
 
         </LinearLayout>
@@ -100,12 +107,19 @@
                 />
 
             <ImageView
-                android:id="@+id/player_1"
-                android:layout_width="220px"
-                android:layout_height="220px"
-                android:layout_marginTop="450dp"
+                android:id="@+id/bonus_2"
+                android:layout_width="match_parent"
+                android:layout_height="170px"
+                android:src="@drawable/powerpuff_heart" />
 
+            <ImageView
+                android:id="@+id/player_1"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:layout_marginTop="430dp"
                 />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -122,11 +136,19 @@
                 android:src="@drawable/img_mojo" />
 
             <ImageView
+                android:id="@+id/bonus_3"
+                android:layout_width="match_parent"
+                android:layout_height="170px"
+                android:src="@drawable/powerpuff_heart" />
+
+            <ImageView
                 android:id="@+id/player_2"
-                android:layout_width="220px"
-                android:layout_height="220px"
-                android:layout_marginTop="450dp"
-                android:src="@drawable/img_buttercup" />
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:layout_marginTop="430dp"
+                android:src="@drawable/img_buttercup"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -144,10 +166,18 @@
                 android:src="@drawable/img_mojo" />
 
             <ImageView
+                android:id="@+id/bonus_4"
+                android:layout_width="match_parent"
+                android:layout_height="170px"
+                android:src="@drawable/powerpuff_heart" />
+
+            <ImageView
                 android:id="@+id/player_3"
-                android:layout_width="220px"
-                android:layout_height="220px"
-                android:layout_marginTop="450dp" />
+                android:layout_width="200px"
+                android:layout_height="200px"
+
+                android:layout_marginTop="430dp"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -165,10 +195,17 @@
                 android:src="@drawable/img_mojo" />
 
             <ImageView
+                android:id="@+id/bonus_5"
+                android:layout_width="match_parent"
+                android:layout_height="170px"
+                android:src="@drawable/powerpuff_heart" />
+
+            <ImageView
                 android:id="@+id/player_4"
-                android:layout_width="220px"
-                android:layout_height="220px"
-                android:layout_marginTop="450dp" />
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:layout_marginTop="430dp"
+                />
         </LinearLayout>
 
 

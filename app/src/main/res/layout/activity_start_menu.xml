@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Start_Menu">
+
+    <ImageView
+        android:id="@+id/demo_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_back" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_above="@+id/sensors"
+        android:background="#00FFFFFF"
+        android:rotationX="-17"
+        android:src="@drawable/login_image" />
+
+    <Switch
+        android:id="@+id/sensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/startGame"
+        android:layout_centerInParent="true"
+        android:backgroundTint="#A1F37474"
+        android:paddingBottom="15dp"
+        android:text="Sensors"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Button
+        android:id="@+id/startGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Start Game"
+        android:textStyle="bold"
+        android:backgroundTint="#FAC0C0"
+        android:textColor="#3A0202"
+        android:layout_marginBottom="10dp"
+
+        />
+
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        android:textStyle="bold"
+
+        android:layout_below="@+id/startGame"
+        android:layout_centerInParent="true"
+        android:backgroundTint="#FAC0C0"
+        android:textColor="#3A0202"
+        />
+
+
+
+</RelativeLayout>
