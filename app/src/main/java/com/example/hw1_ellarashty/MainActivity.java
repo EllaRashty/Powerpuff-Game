@@ -8,6 +8,10 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,17 +40,19 @@ public class MainActivity extends AppCompatActivity {
 
     //Enemy movement
     private ImageView[] enemy , bonus;
-//    private ValueAnimator[] enemy_animations, bonus_animations;
     private int animationIndex, screenHeight, bonusAnimationIndex;
 
-    //Duration of the play
-    private TextView duration_time;
+    //Duration of the play & score
+    private TextView duration_time, score_view;
     private Timer timer ;
-    int clock = 0;
+    int clock = 0, score = 0;
 
     private Animation anima;
 
     public static boolean sensors_is_on;
+    private float  x_sensor;
+    private SensorManager sensorManager;
+    private Sensor accSensor;
 
 
 
@@ -75,19 +81,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        if (Start_Menu.sensors_switch != null){
-            if(Start_Menu.sensors_switch.isChecked())
-                sensors_is_on =true;
-            else
-                sensors_is_on =false;
-        }
+        score_view.setText("SCORE: " + score);
+        initSensor();
+
         //Movement right
         right = findViewById(R.id.right_BTN);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(playerIndex<4)
-                    moveRight(right);
+                    moveRight();
             }
         });
 
@@ -96,11 +98,58 @@ public class MainActivity extends AppCompatActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(playerIndex>0)
-                    moveLeft(left);
+                    moveLeft();
             }
         });
     }
+
+    private void initSensor() {
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (Start_Menu.sensors_switch != null){
+            if(Start_Menu.sensors_switch.isChecked()){
+                sensors_is_on =true;
+            }
+            else {
+                sensors_is_on = false;
+            }
+        }
+
+    }
+
+    private SensorEventListener accSensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if(sensors_is_on) {
+                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                    x_sensor -= event.values[0];
+                    if (x_sensor < 0)   moveLeft();
+                    else if (x_sensor > 0)  moveRight();
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(accSensorEventListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(accSensorEventListener);
+    }
+
+//    public boolean isSensorExist(int sensorType) {
+//        return (sensorManager.getDefaultSensor(sensorType) != null);
+//    }
 
     private void startAnimations() {
         WindowManager wm = getWindowManager();
@@ -168,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                     if(checkCrash(bonus[bonusIndex],path[playerIndex])) {
                         bonus[bonusIndex].setY(-120);
 //                        updateCrash();
+                        updateScore( 5);
                         updatedAnimation.start();
                     }
                 }
@@ -224,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findViews() {
+        score_view = findViewById(R.id.score);
+
         duration_time = findViewById(R.id.duration_time);
         //The path of the player
         path = new ImageView[]{
@@ -251,31 +303,35 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Move the player to the left
-    private void moveRight(View view) {
-        path[playerIndex].setImageResource(0);
-        //To know which Power Puff girl is playing
-        if(hearts_count==3)
-            path[playerIndex+1].setImageResource(R.drawable.img_buttercup);
-        else if(hearts_count==2)
-            path[playerIndex+1].setImageResource(R.drawable.img_blossom);
-        else
-            path[playerIndex+1].setImageResource(R.drawable.img_bubbles);
-        playerIndex++;
-
+    private void moveRight() {
+        if(playerIndex<4) {
+            path[playerIndex].setImageResource(0);
+            //To know which Power Puff girl is playing
+            if (hearts_count == 3)
+                path[playerIndex + 1].setImageResource(R.drawable.img_buttercup);
+            else if (hearts_count == 2)
+                path[playerIndex + 1].setImageResource(R.drawable.img_blossom);
+            else
+                path[playerIndex + 1].setImageResource(R.drawable.img_bubbles);
+            playerIndex++;
+        }
     }
 
     //Move the player to the right
-    private void moveLeft(View view) {
-        path[playerIndex].setImageResource(0);
-        //To know which Power Puff girl is playing
-        if(hearts_count==3)
-            path[playerIndex - 1].setImageResource(R.drawable.img_buttercup);
-        else if(hearts_count==2)
-            path[playerIndex - 1].setImageResource(R.drawable.img_blossom);
-        else
-            path[playerIndex - 1].setImageResource(R.drawable.img_bubbles);
-        playerIndex--;
+    private void moveLeft() {
+        if(playerIndex>0) {
+            path[playerIndex].setImageResource(0);
+            //To know which Power Puff girl is playing
+            if (hearts_count == 3)
+                path[playerIndex - 1].setImageResource(R.drawable.img_buttercup);
+            else if (hearts_count == 2)
+                path[playerIndex - 1].setImageResource(R.drawable.img_blossom);
+            else
+                path[playerIndex - 1].setImageResource(R.drawable.img_bubbles);
+            playerIndex--;
+        }
     }
+
 
     // Duration of the play
     private void startTicker() {
@@ -302,11 +358,19 @@ public class MainActivity extends AppCompatActivity {
         clock++;
         duration_time.setText("Time: " + clock);
 
-        //After every 20 seconds an animation will be activated
+        //After every 20 seconds an animation will be activated and the player will receive points
         if(clock%20==0){
             anima = AnimationUtils.loadAnimation(this, R.anim.sample_anim);
             duration_time.startAnimation(anima);
+            updateScore(10);
+            score_view.startAnimation(anima);
         }
+    }
+
+    private void updateScore(int points){
+        score += points;
+        anima = AnimationUtils.loadAnimation(this, R.anim.sample_anim);
+        score_view.setText("SCORE: " + score);
     }
 
 

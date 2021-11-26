@@ -40,13 +40,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Start Game"
-        android:textStyle="bold"
-        android:backgroundTint="#FAC0C0"
-        android:textColor="#3A0202"
         android:layout_marginBottom="10dp"
-
-        />
+        android:backgroundTint="#FAC0C0"
+        android:text="Start Game"
+        android:textColor="#3A0202"
+        android:textStyle="bold"
+        app:strokeColor="#3A0202"
+        app:strokeWidth="2dp" />
 
     <Button
         android:id="@+id/exit"
@@ -54,7 +54,8 @@
         android:layout_height="wrap_content"
         android:text="Exit"
         android:textStyle="bold"
-
+        app:strokeColor="#3A0202"
+        app:strokeWidth="2dp"
         android:layout_below="@+id/startGame"
         android:layout_centerInParent="true"
         android:backgroundTint="#FAC0C0"

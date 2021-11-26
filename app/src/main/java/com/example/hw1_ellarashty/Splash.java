@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Splash extends AppCompatActivity{
 
-//    private static final String TAG = Splash.class.getSimpleName();
 
     final int ANIM_DURATION = 1000;
 //    private MediaPlayer opening;
