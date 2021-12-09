@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Start_Menu">
+    tools:context=".Start_Menu"
+    android:keepScreenOn="true">
 
-    <ImageView
+
+<ImageView
         android:id="@+id/demo_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,11 +18,24 @@
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:layout_above="@+id/sensors"
+        android:layout_height="240dp"
+        android:layout_above="@+id/editName"
         android:background="#00FFFFFF"
         android:rotationX="-17"
         android:src="@drawable/login_image" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:shadowColor="@android:color/white"
+        android:hint="Enter Your Name"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:inputType="textCapSentences"
+        android:layout_above="@id/sensors"
+
+        android:textSize="30dp" />
 
     <Switch
         android:id="@+id/sensors"
@@ -31,7 +46,7 @@
         android:backgroundTint="#A1F37474"
         android:paddingBottom="15dp"
         android:text="Sensors"
-        android:textSize="20dp"
+        android:textSize="22dp"
         android:textStyle="bold"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -49,6 +64,20 @@
         app:strokeWidth="2dp" />
 
     <Button
+        android:id="@+id/scores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#FAC0C0"
+        android:text="Scores"
+        android:layout_below="@+id/startGame"
+        android:textColor="#3A0202"
+        android:textStyle="bold"
+        app:strokeColor="#3A0202"
+        app:strokeWidth="2dp" />
+
+    <Button
         android:id="@+id/exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +85,7 @@
         android:textStyle="bold"
         app:strokeColor="#3A0202"
         app:strokeWidth="2dp"
-        android:layout_below="@+id/startGame"
+        android:layout_below="@+id/scores"
         android:layout_centerInParent="true"
         android:backgroundTint="#FAC0C0"
         android:textColor="#3A0202"

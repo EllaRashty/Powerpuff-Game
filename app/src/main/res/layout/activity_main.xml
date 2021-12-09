@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:keepScreenOn="true">
 
     <ImageView
         android:id="@+id/demo_IMG_back"
@@ -234,8 +235,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/img_left"
-        />
+        android:background="@drawable/img_left" />
 
     <Button
         android:id="@+id/right_BTN"
