@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.HW1_EllaRashty" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#B5F2FD</item>
+        <item name="colorPrimary">#8C9DF3</item>
         <item name="colorPrimaryVariant">#CE4CADED</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -13,4 +13,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.HW1_EllaRashty.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.HW1_EllaRashty.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.HW1_EllaRashty.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

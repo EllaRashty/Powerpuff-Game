@@ -9,7 +9,7 @@
     android:keepScreenOn="true">
 
 
-<ImageView
+    <ImageView
         android:id="@+id/demo_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
-        android:layout_height="240dp"
+        android:layout_height="235dp"
         android:layout_above="@+id/editName"
         android:background="#00FFFFFF"
         android:rotationX="-17"
@@ -28,14 +28,13 @@
         android:id="@+id/editName"
         android:layout_width="180dp"
         android:layout_height="60dp"
-        android:shadowColor="@android:color/white"
-        android:hint="Enter Your Name"
-        android:layout_centerInParent="true"
-        android:textStyle="bold"
-        android:inputType="textCapSentences"
         android:layout_above="@id/sensors"
-
-        android:textSize="30dp" />
+        android:layout_centerInParent="true"
+        android:hint="Player Name"
+        android:inputType="textCapSentences"
+        android:shadowColor="@android:color/white"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
     <Switch
         android:id="@+id/sensors"
@@ -44,8 +43,9 @@
         android:layout_above="@id/startGame"
         android:layout_centerInParent="true"
         android:backgroundTint="#A1F37474"
+        android:paddingTop="5dp"
         android:paddingBottom="15dp"
-        android:text="Sensors"
+        android:text="SENSORS  "
         android:textSize="22dp"
         android:textStyle="bold"
         tools:ignore="UseSwitchCompatOrMaterialXml" />

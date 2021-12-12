@@ -1,4 +1,4 @@
-package com.example.hw1_ellarashty;
+package com.example.powerpuff_game;
 
 import android.content.Context;
 

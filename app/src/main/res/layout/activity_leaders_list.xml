@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".LeadersList">
 
 
     <ImageView
         android:id="@+id/demo_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/cover" />
 
 
@@ -20,7 +20,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/img_left" />
+        android:background="@drawable/back_img" />
 
     <TextView
         android:id="@+id/title"
@@ -28,29 +28,30 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/back"
         android:layout_centerHorizontal="true"
-        android:text="Hello World!"
-        android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textColor="#540761"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
 
     <FrameLayout
-        android:id="@+id/frame1"
+        android:id="@+id/List"
         android:layout_width="match_parent"
         android:layout_height="330dp"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
-        android:background="@color/teal_700"
+        android:background="#EEEFF6"
         android:dividerHeight="30dp" />
 
     <FrameLayout
         android:id="@+id/score_LAY_map"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@+id/frame1"
-        android:layout_margin="15dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/List"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_weight="4"
-        android:background="#45454545" />
+        android:background="#CE5CC5BB" />
 
 
 </RelativeLayout>

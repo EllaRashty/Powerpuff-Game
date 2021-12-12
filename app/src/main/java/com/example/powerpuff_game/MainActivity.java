@@ -1,26 +1,24 @@
 package com.example.powerpuff_game;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.provider.Settings;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,11 +32,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 
-import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
+    private ImageView mute;
     private MediaPlayer song, leveUp;
 
     //Buttons for moving the player
@@ -46,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView[] path, hearts;
     private int playerIndex, hearts_count = 3;
-    ;
 
     //Enemy movement
     private ImageView[] enemy, bonus;
@@ -61,14 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean sensors_is_on;
     private float x_sensor;
-
     private SensorManager sensorManager;
     private Sensor accSensor;
 
     private Leader winner;
-    private LocationManager locationManager;
-    private LocationListener listener;
-    private double l1, l2;
+    private MyLocation myLocation;
+
+    private boolean music = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,31 +75,7 @@ public class MainActivity extends AppCompatActivity {
         findViews();
         initView();
         startAnimations();
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        listener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                l1= location.getLongitude();
-                l2=location.getLatitude();
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(i);
-            }
-        };
+        myLocation = new MyLocation(this);
 
     }
 
@@ -120,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         song.pause();
         stopTicker();
+        finish();
     }
 
     private void initView() {
@@ -143,6 +116,21 @@ public class MainActivity extends AppCompatActivity {
                 moveLeft();
             }
         });
+
+        mute = findViewById(R.id.mute);
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                muteMusic();
+            }
+        });
+    }
+
+    private void muteMusic() {
+        if(song.isPlaying())
+            song.pause();
+        else
+            song.start();
     }
 
     private void initSensor() {
@@ -157,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
     private SensorEventListener accSensorEventListener = new SensorEventListener() {
         @Override
@@ -173,10 +162,6 @@ public class MainActivity extends AppCompatActivity {
                     } else if (-0.9 < x_sensor && x_sensor < 0.9) {
                         x_sensor = 0;
                     }
-                    DecimalFormat df = new DecimalFormat("##.##");
-                    duration_time.setText(
-                            df.format(x_sensor) + "\n"
-                    );
                 }
             }
         }
@@ -200,9 +185,6 @@ public class MainActivity extends AppCompatActivity {
         song.pause();
     }
 
-//    public boolean isSensorExist(int sensorType) {
-//        return (sensorManager.getDefaultSensor(sensorType) != null);
-//    }
 
     private void startAnimations() {
         WindowManager wm = getWindowManager();
@@ -291,11 +273,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void enterToLeadersList() {
-        Intent intent = new Intent(MainActivity.this, LeadersList.class);
+    private void go_back_to_start_menu() {
+        Intent intent = new Intent(MainActivity.this, Start_Menu.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
         finish();
+    }
+
+    //Request for location Permissions
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == myLocation.PERMISSION_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                myLocation.getLocation();
+        } else
+            myLocation.setLocationAccepted(false);
     }
 
     private void updateCrash() {
@@ -304,22 +297,21 @@ public class MainActivity extends AppCompatActivity {
         hearts_count--;
         //To know which Power Puff girl is playing
         if (hearts_count == 0) {
-            winner = new Leader(Start_Menu.playerName, score,l2, l1);
+            winner = new Leader(Start_Menu.playerName, score, myLocation.getLat(), myLocation.getLng(), sensors_is_on);
             updateScoreBoard();
-            enterToLeadersList();
+            go_back_to_start_menu();
         } else if (hearts_count == 2) {
             path[playerIndex].setImageResource(R.drawable.img_blossom);
             //Animation for a player replacement
             anima = AnimationUtils.loadAnimation(this, R.anim.rotate);
             path[playerIndex].startAnimation(anima);
-        } else {
+        } else if (hearts_count == 3) {
             path[playerIndex].setImageResource(R.drawable.img_bubbles);
             //Animation for a player replacement
             anima = AnimationUtils.loadAnimation(this, R.anim.rotate);
             path[playerIndex].startAnimation(anima);
         }
         leveUp.start();
-
     }
 
     //Checks if two objects in the same position (collision)
@@ -361,7 +353,6 @@ public class MainActivity extends AppCompatActivity {
 
         song = MediaPlayer.create(this, R.raw.cover_song);
         leveUp = MediaPlayer.create(this, R.raw.blossom_level_up_1);
-
     }
 
 
@@ -419,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateClock() {
         clock++;
-//        duration_time.setText("Time: " + clock);
+        duration_time.setText("Time: " + clock);
 
         //After every 20 seconds an animation will be activated and the player will receive points
         if (clock % 20 == 0) {
@@ -439,7 +430,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateScoreBoard() {
         TopTen score_board;
         Gson gson = new Gson();
-
         String topTen = MySPV.getInstance().getString(MySPV.KEYS.KEY_SCORE_BOARD, null);
         if (topTen == null) {
             score_board = new TopTen();

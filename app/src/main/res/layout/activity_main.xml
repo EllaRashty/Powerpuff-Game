@@ -14,6 +14,15 @@
         android:layout_height="match_parent"
         android:background="@drawable/img_city"
         />
+    <ImageView
+        android:id="@+id/mute"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/music_logo"
+        />
 
     <ImageView
         android:id="@+id/heart_1"
@@ -40,17 +49,17 @@
         android:layout_toEndOf="@+id/heart_2"
         android:src="@drawable/img_heart"
         />
+
     <TextView
+        android:id="@+id/duration_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="35dp"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@id/mute"
         android:textColor="@color/white"
-        android:textSize="21dp"
-        android:id="@+id/duration_time"
-        />
+        android:textSize="21dp" />
 
 
     <TextView

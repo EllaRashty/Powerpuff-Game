@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "786960102086",
+    "firebase_url": "https://powerpuff-game-62683-default-rtdb.firebaseio.com",
+    "project_id": "powerpuff-game-62683",
+    "storage_bucket": "powerpuff-game-62683.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786960102086:android:daa5cc65f447a718cdddc7",
+        "android_client_info": {
+          "package_name": "com.example.powerpuff_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786960102086-rp393jc5t9ig54ai0o84akeahrq8pbna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl6Y4LOJddrDM4qZ-lcyJY4aFM8vFade0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786960102086-rp393jc5t9ig54ai0o84akeahrq8pbna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

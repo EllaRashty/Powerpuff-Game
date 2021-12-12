@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import java.util.List;
 
 
@@ -23,6 +24,7 @@ public class Adapter_Score extends ArrayAdapter<Leader> {
     private String name;
     private int score;
     private String date;
+    private boolean sensors;
     private Leader leader;
     private int lastPosition = -1;
 
@@ -38,14 +40,14 @@ public class Adapter_Score extends ArrayAdapter<Leader> {
         name = getItem(position).getName();
         score = getItem(position).getScore();
         date = getItem(position).getDate();
+        sensors = getItem(position).getWithSensors();
 
-        leader = new Leader(name, score,"09/12");
+        leader = new Leader(name, score, date, sensors);
 
         //create the view result for showing the animation
         final View result;
         //ViewHolder object
         ViewHolder holder;
-
 
 
         if (convertView == null) {
@@ -55,6 +57,8 @@ public class Adapter_Score extends ArrayAdapter<Leader> {
             holder.adapter_LBL_name = (TextView) convertView.findViewById(R.id.adapter_LBL_name);
             holder.adapter_LBL_score = (TextView) convertView.findViewById(R.id.adapter_LBL_score);
             holder.adapter_LBL_date = (TextView) convertView.findViewById(R.id.adapter_LBL_date);
+            holder.adapter_LBL_sensors = (TextView) convertView.findViewById(R.id.sensors);
+
 
             result = convertView;
 
@@ -74,10 +78,10 @@ public class Adapter_Score extends ArrayAdapter<Leader> {
         holder.adapter_LBL_name.setText(leader.getName());
         holder.adapter_LBL_score.setText(String.valueOf(leader.getScore()));
         holder.adapter_LBL_date.setText(leader.getDate());
+        holder.adapter_LBL_sensors.setText(leader.isWithSensors());
 
         return convertView;
     }
-
 
 
     //Holds variables in a View
@@ -85,6 +89,7 @@ public class Adapter_Score extends ArrayAdapter<Leader> {
         TextView adapter_LBL_name;
         TextView adapter_LBL_score;
         TextView adapter_LBL_date;
+        TextView adapter_LBL_sensors;
     }
 }
 
